@@ -11,11 +11,25 @@ endif()
 
 project ("GithubBreakoutWallpaper")
 
+find_package(curl REQUIRED)
+find_package(curlcpp REQUIRED)
+
+get_property(imported_targets DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" PROPERTY IMPORTED_TARGETS)
+MESSAGE(STATUS "Imported targets ➜ ${imported_targets}")
+
 # Add source to this project's executable.
-add_executable (GithubBreakoutWallpaper "main.cpp" )
+add_executable (GithubBreakoutWallpaper 
+"main.cpp"
+)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET GithubBreakoutWallpaper PROPERTY CXX_STANDARD 20)
 endif()
+
+target_link_libraries(${PROJECT_NAME}
+PRIVATE
+  CURL::libcurl
+  curlcpp::curlcpp
+)
 
 # TODO: Add tests and install targets if needed.
