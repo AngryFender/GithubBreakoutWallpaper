@@ -1,7 +1,4 @@
-﻿# CMakeList.txt : CMake project for GithubBreakoutWallpaper, include source and define
-# project specific logic here.
-#
-cmake_minimum_required (VERSION 3.10)
+﻿cmake_minimum_required (VERSION 3.10)
 
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)
@@ -13,7 +10,7 @@ project ("GithubBreakoutWallpaper")
 
 find_package(curl REQUIRED)
 find_package(curlcpp CONFIG REQUIRED)
-
+find_package(tomlplusplus CONFIG REQUIRED)
 INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
 
 get_property(imported_targets DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" PROPERTY IMPORTED_TARGETS)
@@ -34,11 +31,8 @@ if(WIN32)
           wsock32
           ws2_32
           CURL::libcurl
-          curlcpp::curlcpp)
+          curlcpp::curlcpp
+          tomlplusplus::tomlplusplus
+  )
+
 endif()
-
-target_link_libraries(${PROJECT_NAME}
-
-)
-
-# TODO: Add tests and install targets if needed.
