@@ -1,16 +1,36 @@
 ﻿#include <iostream>
-#include "WinSock2.h"
 #include "curlcpp/curl_easy.h"
+#include <toml++/toml.h>
+
 using curl::curl_easy;
 using curl::curl_easy_exception;
 using curl::curlcpp_traceback;
 
 int main()
 {
-    std::cout << "Hello World" << std::endl;
+    std::cout << "Starting" << std::endl;
+
+    toml::table tbl = toml::parse_file("config.toml");
+
+    std::string config_path = "config.toml";
+    std::string svg_source = load_svg_path(config_path);
+
+    std::string svg_data;
+
+    if (is_url(svg_source)) {
+        svg_data = download_svg(svg_source);
+    } else {
+        std::ifstream file(svg_source);
+        svg_data.assign(std::istreambuf_iterator<char>(file),
+                        std::istreambuf_iterator<char>());
+    }
+
+    render_svg(svg_data);
 
     // Easy object to handle the connection.
-    curl_easy easy;
+    curl::curl_easy easy;
+
+
 
     // Add some options.
     easy.add<CURLOPT_URL>("www.google.com");
